@@ -15,5 +15,11 @@ spring:
       transport:
         dashboard: 127.0.0.1:8080
 
+
 test:
   justin: 341
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'

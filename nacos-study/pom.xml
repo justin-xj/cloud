@@ -42,6 +42,11 @@
             <artifactId>spring-cloud-starter-alibaba-sentinel</artifactId>
             <version>${spring-cloud-alibaba.version}</version>
         </dependency>
+        <!--暴露actuator-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
         <!--集成swagger2-->
         <dependency>
             <groupId>io.springfox</groupId>
