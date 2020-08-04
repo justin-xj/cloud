@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RefreshScope
 public class HelloController {
 
-    @Value("${test.justin}")
+    @Value(value = "${test.justin}")
     private String justin;
 
     @ApiOperation("测试接口")
