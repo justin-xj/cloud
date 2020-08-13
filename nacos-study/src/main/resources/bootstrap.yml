@@ -19,7 +19,4 @@ management:
     web:
       exposure:
         include: '*'
-  #让服务下线,封锁线程
-  endpoint:
-    shutdown:
-      enabled: true
+
