@@ -29,6 +29,7 @@
 
     <modules>
         <module>nacos-study</module>
+        <module>helloserver</module>
     </modules>
 
     <dependencies>
