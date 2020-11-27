@@ -1,4 +1,4 @@
-package com.justin.helloserver;
+package com.justin.esstudy;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

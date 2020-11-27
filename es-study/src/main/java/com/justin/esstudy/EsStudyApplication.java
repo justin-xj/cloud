@@ -1,13 +1,13 @@
-package com.justin.helloserver;
+package com.justin.esstudy;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class HelloserverApplication {
+public class EsStudyApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(HelloserverApplication.class, args);
+        SpringApplication.run(EsStudyApplication.class, args);
     }
 
 }
