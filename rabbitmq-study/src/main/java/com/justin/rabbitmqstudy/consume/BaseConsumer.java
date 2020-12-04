@@ -11,5 +11,6 @@ public class BaseConsumer {
     @RabbitHandler
     public void receive(String message){
         System.out.println("收到direct消息:" + message);
+        throw new RuntimeException("hhh");
     }
 }
