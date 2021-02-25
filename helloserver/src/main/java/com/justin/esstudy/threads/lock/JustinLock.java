@@ -1,0 +1,76 @@
+package com.justin.esstudy.threads.lock;
+
+import java.util.concurrent.LinkedBlockingDeque;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.LockSupport;
+
+public class JustinLock implements Lock {
+
+    private AtomicReference<Thread> owner = new AtomicReference<>();
+
+    private LinkedBlockingDeque<Thread> waiters = new LinkedBlockingDeque();
+
+    private AtomicInteger count = new AtomicInteger(0);
+
+
+    @Override
+    public void lock() {
+        if(!tryLock()){
+            waiters.offer(Thread.currentThread());
+            LockSupport.park();
+            waiters.remove();
+        }
+    }
+
+    @Override
+    public void lockInterruptibly() throws InterruptedException {
+
+    }
+
+    @Override
+    public boolean tryLock() {
+        Thread thread = Thread.currentThread();
+        if(owner.get() == thread){
+            count.incrementAndGet();
+            return true;
+        }else{
+            count.incrementAndGet();
+            if(owner.compareAndSet(null,thread)){
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    @Override
+    public boolean tryLock(long time, TimeUnit unit) throws InterruptedException {
+        return false;
+    }
+
+    @Override
+    public void unlock() {
+        if(owner.get() != Thread.currentThread()){
+            throw new IllegalMonitorStateException();
+        }
+        int next = count.decrementAndGet();
+        if( next == 0){
+            if(owner.compareAndSet(Thread.currentThread(),null)){
+                Thread head = waiters.peek();
+                if(head != null){
+                    LockSupport.unpark(head);
+                }
+            }
+        }
+
+    }
+
+    @Override
+    public Condition newCondition() {
+        return null;
+    }
+}

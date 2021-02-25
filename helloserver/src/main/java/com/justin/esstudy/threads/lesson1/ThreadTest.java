@@ -1,14 +1,13 @@
 package com.justin.esstudy.threads.lesson1;
 
+import java.util.Objects;
+
 public class ThreadTest {
 
     public static void main(String[] args) {
-        new HelloThread().start();
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        System.out.println("main-tread");
+        String s = "cane";
+
+        System.out.println(s.hashCode());
+        System.out.println(Objects.hash(s));
     }
 }
