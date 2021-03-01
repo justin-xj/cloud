@@ -19,11 +19,11 @@ public class JustinLock implements Lock {
 
     @Override
     public void lock() {
-        if(!tryLock()){
-            waiters.offer(Thread.currentThread());
+        waiters.offer(Thread.currentThread());
+        while(!tryLock()){
             LockSupport.park();
-            waiters.remove();
         }
+        waiters.remove(Thread.currentThread());
     }
 
     @Override
@@ -34,16 +34,10 @@ public class JustinLock implements Lock {
     @Override
     public boolean tryLock() {
         Thread thread = Thread.currentThread();
-        if(owner.get() == thread){
+        if(owner.get() == thread || owner.compareAndSet(null,thread)){
             count.incrementAndGet();
             return true;
-        }else{
-            count.incrementAndGet();
-            if(owner.compareAndSet(null,thread)){
-                return true;
-            }
         }
-
         return false;
     }
 
@@ -57,13 +51,9 @@ public class JustinLock implements Lock {
         if(owner.get() != Thread.currentThread()){
             throw new IllegalMonitorStateException();
         }
-        int next = count.decrementAndGet();
-        if( next == 0){
+        if(count.decrementAndGet() == 0){
             if(owner.compareAndSet(Thread.currentThread(),null)){
-                Thread head = waiters.peek();
-                if(head != null){
-                    LockSupport.unpark(head);
-                }
+                LockSupport.unpark(waiters.peek());
             }
         }
 
