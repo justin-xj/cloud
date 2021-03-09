@@ -11,5 +11,10 @@
         <module name="helloserver" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="cloud" target="1.8" />
+      <module name="helloserver" target="1.8" />
+      <module name="nacos-study" target="1.8" />
+    </bytecodeTargetLevel>
   </component>
 </project>
